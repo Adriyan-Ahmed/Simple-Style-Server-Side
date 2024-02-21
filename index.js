@@ -76,6 +76,21 @@ const dbConnect = async () => {
 
 
 
+    app.get("/api/v1/product", async (req, res) => {
+
+      const id = req.query.id;
+
+      const query = { _id: new ObjectId(id) };
+
+      const result = await productsCollection.findOne(query)
+
+      res.send(result);
+
+    });
+
+
+
+
     app.post("/api/v1/products", async (req, res) => {
 
       const product = req.body;
