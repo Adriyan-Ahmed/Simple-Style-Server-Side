@@ -14,8 +14,14 @@ const port = process.env.PORT || 5000;
 
 
 
-const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@cluster0.ck8e5sv.mongodb.net/?retryWrites=true&w=majority`;
+app.use( cors());
 
+app.use(express.json());
+
+
+
+
+const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@cluster0.ck8e5sv.mongodb.net/?retryWrites=true&w=majority`;
 
 
 
@@ -53,20 +59,32 @@ const dbConnect = async () => {
 
 
 
-
     // <---------------------------------------------> //
     // <------ CRUD Operations Start form Here ------> //
     // <---------------------------------------------> //
 
     app.get("/api/v1/products", async (req, res) => {
 
-      const cursor = productsCollection.find()
+      const cursor = productsCollection.find();
 
       const result = await cursor.toArray();
 
       res.send(result);
 
     });
+
+
+
+
+    app.post("/api/v1/products", async (req, res) => {
+
+      const product = req.body;
+
+      const result = productsCollection.insertOne(product);
+
+      res.send(result)
+    
+    })
 
 
     // <---------------------------------------> //
