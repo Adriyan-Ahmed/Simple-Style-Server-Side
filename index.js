@@ -147,6 +147,48 @@ const dbConnect = async () => {
     })
 
 
+
+
+
+    app.put("/api/v1/cart", async (req, res) => {
+
+      const id = req.query.id;
+      
+      const product = req.body;
+
+      const query = { _id: new ObjectId(id) };
+      
+      const option = { upsert: true };
+      
+      const UpdatedProduct = {
+
+        $set: {
+
+          name: product.name,
+
+          image: product.image,
+          
+          type: product.type,
+          
+          price: product.price,
+          
+          rating: product.rating,
+          
+          brand: product.brand,
+          
+          details: product.details,
+        
+        },
+
+      };
+      
+      const result = await usersCartCollection.updateOne(query, UpdatedProduct, option);
+      
+      res.send(result);
+    
+    });
+
+
     // <---------------------------------------> //
     // <------ CRUD Operations Ends Here ------> //
     // <---------------------------------------> //
