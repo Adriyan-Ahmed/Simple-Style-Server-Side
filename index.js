@@ -57,6 +57,8 @@ const dbConnect = async () => {
 
     const productsCollection = client.db("Simple-Style").collection("Products");
 
+    const usersCartCollection = client.db("Simple-Style").collection("Cart");
+
 
 
     // <---------------------------------------------> //
@@ -91,11 +93,39 @@ const dbConnect = async () => {
 
 
 
+    app.get("/api/v1/cart", async (req, res) => {
+
+      const email = req.query.email;
+
+      const query = { email: email };
+
+      const result = await productsCollection.find(query).toArray();
+
+      res.send(result);
+
+    });
+
+
+
+
     app.post("/api/v1/products", async (req, res) => {
 
       const product = req.body;
 
       const result = productsCollection.insertOne(product);
+
+      res.send(result)
+    
+    })
+
+
+
+
+    app.post("/api/v1/cart", async (req, res) => {
+
+      const product = req.body;
+
+      const result = usersCartCollection.insertOne(product);
 
       res.send(result)
     
