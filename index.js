@@ -99,7 +99,22 @@ const dbConnect = async () => {
 
       const query = { email: email };
 
-      const result = await productsCollection.find(query).toArray();
+      const result = await usersCartCollection.find(query).toArray();
+
+      res.send(result);
+
+    });
+
+
+
+
+    app.get("/api/v1/cart/product", async (req, res) => {
+
+      const id = req.query.id;
+
+      const query = { _id: new ObjectId(id) };
+
+      const result = await usersCartCollection.findOne(query);
 
       res.send(result);
 
